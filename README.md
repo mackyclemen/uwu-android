@@ -2,7 +2,7 @@
 A simple uwu translator for Android.
 
 ## why?
-Remember the C++ version of this? Now it's on Android! (yay!)
+Remember the [C++ version of this](https://github.com/mackyclemen/uwu-cpp)? Now it's on Android! (yay!)
 
 ## any features?
 The translator:
