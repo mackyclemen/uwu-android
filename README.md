@@ -10,3 +10,6 @@ The translator:
 - converts any words that have 'mo' and 'no' to 'myo-' and 'nyo-';
 - converts any words that have 'hu' to 'hoo' (such as human -> hooman);
 - and the the cherry on top: the 'uwu' at the end.
+
+Additionally:
+- you can now copy the current translation to the clipboard!
