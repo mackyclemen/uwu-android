@@ -1,4 +1,4 @@
-package com.mackyc.uwutranslator;
+package com.mackyc.uwutranslator.mainclass;
 
 import androidx.appcompat.app.AppCompatActivity;
 
