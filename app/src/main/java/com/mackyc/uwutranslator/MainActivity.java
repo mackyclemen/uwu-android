@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 if(translateInput.getText().toString().length() > 0) {
                     // In this case, the user has something to translate.
                     result = uwuTranslator.translate(translateInput.getText().toString());
-                    Clipboard.addPlainText(this, result);
                     translateClipboardButton.setEnabled(true);
                 } else {
                     // In this case, the user didn't have anything to translate.
