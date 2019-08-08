@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.mackyc.uwutranslator.R;
+import com.mackyc.uwutranslator.clipboardhandler.Clipboard;
+import com.mackyc.uwutranslator.translatormodules.uwuTranslator;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText translateInput, translateResult;
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickHandler(View view) {
 
-        switch(view.getId()) {
+        switch (view.getId()) {
 
             // This handles the click of the translate button.
             case R.id.translate_button:
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 String result;
 
                 // This if statement checks if there is some text to translate
-                if(translateInput.getText().toString().length() > 0) {
+                if (translateInput.getText().toString().length() > 0) {
                     // In this case, the user has something to translate.
                     result = uwuTranslator.translate(translateInput.getText().toString());
                     translateClipboardButton.setEnabled(true);
