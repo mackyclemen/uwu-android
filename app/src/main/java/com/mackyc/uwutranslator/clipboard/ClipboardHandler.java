@@ -1,9 +1,11 @@
-package com.mackyc.uwutranslator;
+package com.mackyc.uwutranslator.clipboard;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.widget.Toast;
+
+import com.mackyc.uwutranslator.R;
 
 import java.util.Objects;
 
@@ -13,7 +15,7 @@ import java.util.Objects;
  * Handles stuff and automatically sends toasts
  * to the user (hence the context.)
  */
-class Clipboard {
+public final class ClipboardHandler {
 
     /**
      * Adds plain text to the clipboard.
@@ -21,7 +23,7 @@ class Clipboard {
      * @param context Current instance of the activity
      * @param text    Text that will be added to the clipboard
      */
-    static void addPlainText(Context context, String text) {
+    public static void addPlainText(Context context, String text) {
 
         // Gets the instance of the clipboard.
         ClipboardManager manager =

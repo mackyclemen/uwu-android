@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
+import com.mackyc.uwutranslator.translators.uwuTranslator;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText translateInput, translateResult;
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.translate_clipboard_button:
                 result = uwuTranslator.translate(translateInput.getText().toString());
-                Clipboard.addPlainText(this, result);
+                ClipboardHandler.addPlainText(this, result);
                 break;
         }
     }
