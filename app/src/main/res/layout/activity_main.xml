@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/divider_padding"
+    android:paddingLeft="@dimen/padding_horizontal"
+    android:paddingRight="@dimen/padding_horizontal"
+    android:paddingTop="@dimen/padding_vertical"
+    android:paddingBottom="@dimen/padding_vertical"
+    tools:context=".MainActivity"
+    tools:ignore="UnusedAttribute">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translate_instruction_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:labelFor="@id/translate_edit_text"/>
+
+    <EditText android:id="@+id/translate_edit_text"
+        android:importantForAutofill="no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="5"/>
+
+    <Button android:id="@+id/translate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/translate_button"
+        android:onClick="onClickHandler"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translate_result_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:labelFor="@id/translate_result_edit_text"/>
+
+    <EditText android:id="@+id/translate_result_edit_text"
+        android:importantForAutofill="no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:textIsSelectable="true"
+        android:maxLines="5" />
+
+</LinearLayout>
