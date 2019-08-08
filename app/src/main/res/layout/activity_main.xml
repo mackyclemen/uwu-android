@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/padding_horizontal"
     android:paddingTop="@dimen/padding_vertical"
     android:paddingBottom="@dimen/padding_vertical"
-    tools:context=".mainclass.MainActivity"
+    tools:context=".MainActivity"
     tools:ignore="UnusedAttribute">
 
     <TextView

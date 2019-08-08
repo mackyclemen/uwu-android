@@ -1,8 +1,8 @@
-package com.mackyc.uwutranslator.translatormodules;
+package com.mackyc.uwutranslator;
 
-public final class uwuTranslator {
+class uwuTranslator {
 
-    public static String translate(String input) {
+    static String translate(String input) {
         return input
                 .replace('l', 'w')
                 .replace('r', 'w')
