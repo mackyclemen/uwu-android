@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
 import com.mackyc.uwutranslator.translators.uwuTranslator;
 
