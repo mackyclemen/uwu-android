@@ -20,7 +20,6 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
 
     private EditText translateInput, translateResult;
     private Button translateButton, translateClipboardButton;
-    private TextInputLayout translateContainerInput;
 
     @Nullable
     @Override
@@ -40,9 +39,7 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
         translateButton = view.findViewById(R.id.translate_button);
         translateClipboardButton = view.findViewById(R.id.translate_clipboard_button);
 
-        translateContainerInput = view.findViewById(R.id.translate_container_edit_text);
-
-        translateContainerInput.setOnClickListener(this);
+        translateInput.setOnClickListener(this);
 
         translateButton.setOnClickListener(this);
         translateClipboardButton.setOnClickListener(this);
@@ -77,7 +74,7 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
                 ClipboardHandler.addPlainText(view.getContext(), result);
                 break;
 
-            case R.id.translate_container_edit_text:
+            case R.id.translate_edit_text:
                 translateResult.setEnabled(false);
         }
     }
