@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/divider_padding"
+    tools:ignore="UnusedAttribute" >
+
+    <!-- Translate input -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translate_instruction_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:labelFor="@id/translate_edit_text"/>
+
+    <EditText android:id="@+id/translate_edit_text"
+        android:importantForAutofill="no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="5"/>
+
+    <Button android:id="@+id/translate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/translate_button" />
+
+    <!-- Translation result -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translate_result_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:labelFor="@id/translate_result_edit_text"/>
+
+    <EditText android:id="@+id/translate_result_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="none"
+        android:maxLines="5"
+        android:textIsSelectable="true" />
+
+    <!-- Copy to clipboard button -->
+    <Button
+        android:id="@+id/translate_clipboard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/translate_clipboard_button" />
+
+</LinearLayout>
