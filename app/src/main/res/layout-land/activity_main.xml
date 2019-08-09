@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:baselineAligned="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:showDividers="middle"
     android:divider="@drawable/divider_padding"
     android:paddingLeft="@dimen/padding_horizontal"
@@ -15,14 +16,15 @@
     <!-- Translator layout -->
     <fragment android:id="@+id/translate_fragment_translator"
         android:name="com.mackyc.uwutranslator.TranslatorFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6"/>
 
     <!-- History layout -->
     <fragment android:id="@+id/translate_fragment_history"
         android:name="com.mackyc.uwutranslator.HistoryFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4" />
 
 </LinearLayout>

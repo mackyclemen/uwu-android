@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
 import com.mackyc.uwutranslator.translators.uwuTranslator;
 
@@ -19,6 +20,7 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
 
     private EditText translateInput, translateResult;
     private Button translateButton, translateClipboardButton;
+    private TextInputLayout translateContainerInput;
 
     @Nullable
     @Override
@@ -37,6 +39,10 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
 
         translateButton = view.findViewById(R.id.translate_button);
         translateClipboardButton = view.findViewById(R.id.translate_clipboard_button);
+
+        translateContainerInput = view.findViewById(R.id.translate_container_edit_text);
+
+        translateContainerInput.setOnClickListener(this);
 
         translateButton.setOnClickListener(this);
         translateClipboardButton.setOnClickListener(this);
@@ -62,6 +68,7 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
                     translateClipboardButton.setEnabled(false);
                 }
 
+                translateResult.setEnabled(true);
                 translateResult.setText(result);
                 break;
 
@@ -69,6 +76,9 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
                 result = uwuTranslator.translate(translateInput.getText().toString());
                 ClipboardHandler.addPlainText(view.getContext(), result);
                 break;
+
+            case R.id.translate_container_edit_text:
+                translateResult.setEnabled(false);
         }
     }
 }

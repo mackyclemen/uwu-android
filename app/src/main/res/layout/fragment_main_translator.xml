@@ -3,25 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:showDividers="middle"
     android:divider="@drawable/divider_padding"
-    tools:ignore="UnusedAttribute" >
+    tools:ignore="UnusedAttribute">
 
     <!-- Translate input -->
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/translate_container_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/translate_instruction_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:labelFor="@id/translate_edit_text"/>
+        android:hint="@string/translate_instruction_text"
+        android:labelFor="@id/translate_edit_text"
+        app:hintEnabled="true">
 
-    <EditText android:id="@+id/translate_edit_text"
-        android:importantForAutofill="no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences|textMultiLine"
-        android:maxLines="5"/>
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/translate_edit_text"
+            android:importantForAutofill="no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="5"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button android:id="@+id/translate_button"
         android:layout_width="wrap_content"
@@ -29,20 +32,23 @@
         android:text="@string/translate_button" />
 
     <!-- Translation result -->
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/translate_result_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:labelFor="@id/translate_result_edit_text"/>
+        android:hint="@string/translate_result_text"
+        android:labelFor="@id/translate_result_edit_text"
+        app:hintEnabled="true">
 
-    <EditText android:id="@+id/translate_result_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:maxLines="5"
-        android:textIsSelectable="true" />
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/translate_result_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:enabled="false"
+            android:inputType="none"
+            android:maxLines="5"
+            android:textIsSelectable="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Copy to clipboard button -->
     <Button
