@@ -1,4 +1,4 @@
-package com.mackyc.uwutranslator.database.history.room;
+package com.mackyc.uwutranslator.database.history;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mackyc.uwutranslator.R;
-import com.mackyc.uwutranslator.database.history.HistoryObject;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -21,14 +20,14 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
     private final LayoutInflater inflater;
     private List<HistoryObject> objects;
 
-    HistoryObjectAdapter (Context context) {
+    HistoryObjectAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public HistoryObjectVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.item_list_history, parent, false);
+        View itemView = inflater.inflate(R.layout.history_list_item, parent, false);
         return new HistoryObjectVH(itemView);
     }
 
@@ -52,11 +51,11 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
         else return 0;
     }
 
-    public class HistoryObjectVH extends RecyclerView.ViewHolder {
+    class HistoryObjectVH extends RecyclerView.ViewHolder {
 
         private final TextView historyTranslated, historyRaw, historyTime;
 
-        public HistoryObjectVH(@NonNull View itemView) {
+        HistoryObjectVH(@NonNull View itemView) {
             super(itemView);
             historyTranslated = itemView.findViewById(R.id.history_translated_text);
             historyRaw = itemView.findViewById(R.id.history_raw_text);

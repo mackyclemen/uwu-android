@@ -15,7 +15,6 @@ public final class HistoryObject {
     @PrimaryKey
     @NonNull
     private Date timestamp;
-
     private String raw;
     private String translated;
 

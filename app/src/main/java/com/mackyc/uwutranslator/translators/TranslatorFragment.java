@@ -1,4 +1,4 @@
-package com.mackyc.uwutranslator;
+package com.mackyc.uwutranslator.translators;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.mackyc.uwutranslator.R;
 import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
+import com.mackyc.uwutranslator.database.history.HistoryObject;
+import com.mackyc.uwutranslator.database.history.HistoryObjectModel;
 import com.mackyc.uwutranslator.translators.uwuTranslator;
 
 
@@ -19,6 +23,7 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
 
     private EditText translateInput, translateResult;
     private Button translateButton, translateClipboardButton;
+    private HistoryObjectModel historyObjectModel;
 
     @Nullable
     @Override
@@ -42,6 +47,8 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
 
         translateButton.setOnClickListener(this);
         translateClipboardButton.setOnClickListener(this);
+
+        historyObjectModel = ViewModelProviders.of(this).get(HistoryObjectModel.class);
     }
 
     @Override
@@ -56,8 +63,13 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
                 // This if statement checks if there is some text to translate
                 if(translateInput.getText().toString().length() > 0) {
                     // In this case, the user has something to translate.
-                    result = uwuTranslator.translate(translateInput.getText().toString());
+                    HistoryObject object = new HistoryObject(translateInput.getText().toString());
+                    result = object.getTranslated();
+
+                    historyObjectModel.insert(object);
+
                     translateClipboardButton.setEnabled(true);
+
                 } else {
                     // In this case, the user didn't have anything to translate.
                     result = uwuTranslator.translate("There's nothing to translate! D:<");

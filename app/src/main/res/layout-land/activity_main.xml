@@ -6,23 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:showDividers="middle"
-    android:divider="@drawable/divider_padding"
-    android:paddingLeft="@dimen/padding_horizontal"
-    android:paddingRight="@dimen/padding_horizontal"
-    android:paddingTop="@dimen/padding_vertical"
-    android:paddingBottom="@dimen/padding_vertical"
+    android:divider="@drawable/divider_padding_vertical"
     tools:context=".MainActivity" >
 
     <!-- Translator layout -->
     <fragment android:id="@+id/translate_fragment_translator"
-        android:name="com.mackyc.uwutranslator.TranslatorFragment"
+        android:name="com.mackyc.uwutranslator.translators.TranslatorFragment"
+        tools:layout="@layout/fragment_main_translator"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.6"/>
 
     <!-- History layout -->
     <fragment android:id="@+id/translate_fragment_history"
-        android:name="com.mackyc.uwutranslator.HistoryFragment"
+        android:name="com.mackyc.uwutranslator.database.history.HistoryFragment"
+        tools:layout="@layout/fragment_main_history"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.4" />
