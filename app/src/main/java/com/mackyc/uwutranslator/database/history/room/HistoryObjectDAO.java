@@ -22,6 +22,7 @@ public interface HistoryObjectDAO {
     @Query("DELETE FROM history_table")
     void deleteAll();
 
-    @Query("SELECT * from history_table ORDER BY timestamp ASC")
+    @Query("SELECT * from history_table ORDER BY timestamp DESC")
     LiveData<List<HistoryObject>> getAllEntries();
+
 }

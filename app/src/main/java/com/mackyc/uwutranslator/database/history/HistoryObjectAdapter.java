@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mackyc.uwutranslator.R;
@@ -20,6 +21,17 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
     private final LayoutInflater inflater;
     private List<HistoryObject> objects;
 
+    public interface OnItemClickAdapter {
+
+        /**
+         * Interface to listen in clicks on items in this adapter.
+         * @param position position of object clicked in RecyclerView
+         */
+        void onItemClick(int position);
+    }
+
+    private OnItemClickAdapter adapter;
+
     HistoryObjectAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
@@ -32,7 +44,7 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HistoryObjectVH holder, int position) {
+    public void onBindViewHolder(@NonNull HistoryObjectVH holder, final int position) {
         if(objects != null) {
             HistoryObject current = objects.get(position);
 
@@ -42,6 +54,14 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
             holder.historyTime.setText(sdf.format(current.getTimestamp()));
             holder.historyRaw.setText(current.getRaw());
             holder.historyTranslated.setText(current.getTranslated());
+
+            holder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    adapter.onItemClick(position);
+                }
+            });
+
         }
     }
 
@@ -51,12 +71,16 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
         else return 0;
     }
 
+
+
     class HistoryObjectVH extends RecyclerView.ViewHolder {
 
+        private final ConstraintLayout container;
         private final TextView historyTranslated, historyRaw, historyTime;
 
         HistoryObjectVH(@NonNull View itemView) {
             super(itemView);
+            container = itemView.findViewById(R.id.history_list_container);
             historyTranslated = itemView.findViewById(R.id.history_translated_text);
             historyRaw = itemView.findViewById(R.id.history_raw_text);
             historyTime = itemView.findViewById(R.id.history_timedate);
@@ -65,5 +89,9 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
 
     void setItems(List<HistoryObject> items) {
         objects = items;
+    }
+
+    public void setOnItemClickAdapter(OnItemClickAdapter adapter) {
+        this.adapter = adapter;
     }
 }

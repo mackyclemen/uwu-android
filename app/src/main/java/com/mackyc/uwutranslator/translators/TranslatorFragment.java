@@ -16,7 +16,8 @@ import com.mackyc.uwutranslator.R;
 import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
 import com.mackyc.uwutranslator.database.history.HistoryObject;
 import com.mackyc.uwutranslator.database.history.HistoryObjectModel;
-import com.mackyc.uwutranslator.translators.uwuTranslator;
+
+import java.util.List;
 
 
 public class TranslatorFragment extends Fragment implements View.OnClickListener {
@@ -24,12 +25,17 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
     private EditText translateInput, translateResult;
     private Button translateButton, translateClipboardButton;
     private HistoryObjectModel historyObjectModel;
+    private Bundle args;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        args = getArguments();
+
+        historyObjectModel = ViewModelProviders.of(this).get(HistoryObjectModel.class);
 
         return inflater.inflate(R.layout.fragment_main_translator, container, false);
     }
@@ -48,7 +54,15 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
         translateButton.setOnClickListener(this);
         translateClipboardButton.setOnClickListener(this);
 
-        historyObjectModel = ViewModelProviders.of(this).get(HistoryObjectModel.class);
+        translateInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(isFocused) {
+                    translateResult.setEnabled(false);
+                }
+            }
+        });
+
     }
 
     @Override

@@ -25,6 +25,7 @@ public class HistoryObjectModel extends AndroidViewModel {
         return allObjects;
     }
 
+
     public void insert(HistoryObject obj) {
         repo.insert(obj);
     }

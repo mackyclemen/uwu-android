@@ -7,4 +7,8 @@
     <string name="translate_clipboard_description">simple text</string>
     <string name="translate_clipboard_toast">Copied to clipboard</string>
     <string name="history_container_title">History</string>
+    <string name="history_container_clear_btn">Clear all</string>
+    <string name="history_clear_dialog_msg">Are you sure you want to clear the history?</string>
+    <string name="history_clear_dialog_confirm">Yes</string>
+    <string name="history_clear_dialog_cancel">No</string>
 </resources>

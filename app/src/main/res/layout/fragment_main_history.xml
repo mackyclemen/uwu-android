@@ -6,22 +6,51 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/history_container_title"
         android:paddingLeft="@dimen/padding_horizontal"
         android:paddingTop="@dimen/padding_vertical"
         android:paddingRight="@dimen/padding_horizontal"
-        android:paddingBottom="@dimen/padding_vertical"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:paddingBottom="@dimen/padding_vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_history_list"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/history_container_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button android:id="@+id/history_container_clear_btn"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/history_container_clear_btn" />
+
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/history_list_item" />
+        android:layout_height="match_parent">
 
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_history_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:listitem="@layout/history_list_item" />
+
+        <ProgressBar
+            android:id="@+id/recycler_history_progress"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+    </FrameLayout>
 </LinearLayout>
