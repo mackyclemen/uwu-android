@@ -15,7 +15,6 @@ public class DialogHandler extends DialogFragment {
     private String message = "DialogFragment message";
     private String title;
     private String positiveButton, negativeButton, neutralButton;
-    private Context context;
 
     public interface OnDialogAnswerListener {
         void onPositiveClick();
@@ -28,7 +27,7 @@ public class DialogHandler extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setMessage(message);
 
@@ -88,9 +87,5 @@ public class DialogHandler extends DialogFragment {
 
     public void setNeutralButton(String neutralButton) {
         this.neutralButton = neutralButton;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 }
