@@ -13,3 +13,4 @@ The translator:
 
 Additionally:
 - you can now copy the current translation to the clipboard!
+- you can look at your previous translations and instantly copy them to the clipboard without translating it back!
