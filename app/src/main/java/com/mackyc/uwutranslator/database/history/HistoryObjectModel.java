@@ -21,20 +21,19 @@ public class HistoryObjectModel extends AndroidViewModel {
         allObjects = repo.getAllObjects();
     }
 
-    public LiveData<List<HistoryObject>> getAllObjects() {
+    LiveData<List<HistoryObject>> getAllObjects() {
         return allObjects;
     }
-
 
     public void insert(HistoryObject obj) {
         repo.insert(obj);
     }
 
-    public void delete(HistoryObject obj) {
+    void delete(HistoryObject obj) {
         repo.delete(obj);
     }
 
-    public void deleteAll() {
+    void deleteAll() {
         repo.deleteAll();
     }
 }

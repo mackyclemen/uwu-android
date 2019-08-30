@@ -1,4 +1,4 @@
-package com.mackyc.uwutranslator.database.history;
+package com.mackyc.uwutranslator.database.history.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mackyc.uwutranslator.R;
+import com.mackyc.uwutranslator.database.history.HistoryObject;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -22,7 +23,6 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
     private List<HistoryObject> objects;
 
     public interface OnItemClickAdapter {
-
         /**
          * Interface to listen in clicks on items in this adapter.
          * @param position position of object clicked in RecyclerView
@@ -32,7 +32,7 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
 
     private OnItemClickAdapter adapter;
 
-    HistoryObjectAdapter(Context context) {
+    public HistoryObjectAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
@@ -71,8 +71,6 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
         else return 0;
     }
 
-
-
     class HistoryObjectVH extends RecyclerView.ViewHolder {
 
         private final ConstraintLayout container;
@@ -85,13 +83,21 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
             historyRaw = itemView.findViewById(R.id.history_raw_text);
             historyTime = itemView.findViewById(R.id.history_timedate);
         }
+
+        public void showSnackbar() {
+
+        }
     }
 
-    void setItems(List<HistoryObject> items) {
+    public void setItems(List<HistoryObject> items) {
         objects = items;
     }
 
     public void setOnItemClickAdapter(OnItemClickAdapter adapter) {
         this.adapter = adapter;
+    }
+
+    public HistoryObject getItem(int position) {
+        return objects.get(position);
     }
 }

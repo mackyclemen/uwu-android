@@ -11,4 +11,6 @@
     <string name="history_clear_dialog_msg">Are you sure you want to clear the history?</string>
     <string name="history_clear_dialog_confirm">Yes</string>
     <string name="history_clear_dialog_cancel">No</string>
+    <string name="history_deleted_item">Item deleted</string>
+    <string name="history_deleted_undo">Undo</string>
 </resources>

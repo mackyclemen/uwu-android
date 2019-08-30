@@ -1,6 +1,7 @@
 package com.mackyc.uwutranslator.translators;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +18,22 @@ import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
 import com.mackyc.uwutranslator.database.history.HistoryObject;
 import com.mackyc.uwutranslator.database.history.HistoryObjectModel;
 
-import java.util.List;
+import java.util.Locale;
 
 
 public class TranslatorFragment extends Fragment implements View.OnClickListener {
 
+    private final String TAG = this.getTag();
+
     private EditText translateInput, translateResult;
-    private Button translateButton, translateClipboardButton;
+    private Button translateClipboardButton;
     private HistoryObjectModel historyObjectModel;
-    private Bundle args;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        args = getArguments();
 
         historyObjectModel = ViewModelProviders.of(this).get(HistoryObjectModel.class);
 
@@ -46,7 +46,7 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
         translateInput = view.findViewById(R.id.translate_edit_text);
         translateResult = view.findViewById(R.id.translate_result_edit_text);
 
-        translateButton = view.findViewById(R.id.translate_button);
+        Button translateButton = view.findViewById(R.id.translate_button);
         translateClipboardButton = view.findViewById(R.id.translate_clipboard_button);
 
         translateInput.setOnClickListener(this);
@@ -101,6 +101,10 @@ public class TranslatorFragment extends Fragment implements View.OnClickListener
 
             case R.id.translate_edit_text:
                 translateResult.setEnabled(false);
+                break;
+
+            default:
+                Log.v(TAG, String.format(Locale.getDefault(), "onClick on viewID %s not implemented.", view.getId()));
         }
     }
 }

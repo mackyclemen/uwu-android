@@ -25,7 +25,7 @@ public class HistoryObjectRepository {
     }
 
     public void delete(HistoryObject object) {
-        new DeleteAsyncTask(dao);
+        new DeleteAsyncTask(dao).execute(object);
     }
 
     public void insert(HistoryObject object) {

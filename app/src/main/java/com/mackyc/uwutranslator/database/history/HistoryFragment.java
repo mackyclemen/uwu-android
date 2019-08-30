@@ -1,35 +1,32 @@
 package com.mackyc.uwutranslator.database.history;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.mackyc.uwutranslator.R;
 import com.mackyc.uwutranslator.clipboard.ClipboardHandler;
+import com.mackyc.uwutranslator.database.history.adapter.HistoryObjectAdapter;
+import com.mackyc.uwutranslator.database.history.adapter.SwipeCallback;
 import com.mackyc.uwutranslator.dialogs.DialogHandler;
 
 import java.util.List;
-import java.util.Locale;
 
 public class HistoryFragment extends Fragment {
 
@@ -101,6 +98,8 @@ public class HistoryFragment extends Fragment {
         historyList.addItemDecoration(divider);
         historyList.setLayoutManager(manager);
 
+        SwipeCallback callback = new SwipeCallback(adapter);
+
         progressBar.setVisibility(View.GONE);
         historyList.setVisibility(View.VISIBLE);
 
@@ -127,6 +126,29 @@ public class HistoryFragment extends Fragment {
                 ClipboardHandler.addPlainText(context, strCopy);
             }
         });
+
+        callback.setOnSwipeListener(new SwipeCallback.OnSwipeListener() {
+            @Override
+            public void onSwipe(int position) {
+                final HistoryObject obj = adapter.getItem(position);
+                historyObjectModel.delete(obj);
+
+                adapter.notifyDataSetChanged();
+
+                Snackbar.make(view, getString(R.string.history_deleted_item), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.history_deleted_undo), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                historyObjectModel.insert(obj);
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(historyList);
     }
 
     @Override
