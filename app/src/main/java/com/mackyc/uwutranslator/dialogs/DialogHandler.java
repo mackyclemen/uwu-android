@@ -1,7 +1,6 @@
 package com.mackyc.uwutranslator.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -15,6 +14,10 @@ public class DialogHandler extends DialogFragment {
     private String message = "DialogFragment message";
     private String title;
     private String positiveButton, negativeButton, neutralButton;
+
+    public DialogHandler() {
+        setRetainInstance(true);
+    }
 
     public interface OnDialogAnswerListener {
         void onPositiveClick();
