@@ -8,19 +8,40 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mackyc.uwutranslator.R;
 import com.mackyc.uwutranslator.database.history.HistoryObject;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 
-public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdapter.HistoryObjectVH> {
+public class HistoryObjectAdapter extends ListAdapter<HistoryObject, HistoryObjectAdapter.HistoryObjectVH> {
 
     private final LayoutInflater inflater;
-    private List<HistoryObject> objects;
+    // private List<HistoryObject> objects;
+
+    public HistoryObjectAdapter(Context context) {
+        super(DIFF_CALLBACK);
+        inflater = LayoutInflater.from(context);
+    }
+
+    private static final DiffUtil.ItemCallback<HistoryObject> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<HistoryObject>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull HistoryObject oldItem, @NonNull HistoryObject newItem) {
+                    return oldItem.getTimestamp() == newItem.getTimestamp();
+                }
+
+                @Override
+                public boolean areContentsTheSame(@NonNull HistoryObject oldItem, @NonNull HistoryObject newItem) {
+                    return oldItem.getTimestamp().equals(newItem.getTimestamp()) &&
+                        oldItem.getRaw().equals(newItem.getRaw())&&
+                        oldItem.getTranslated().equals(newItem.getTranslated());
+                }
+            };
 
     public interface OnItemClickAdapter {
         /**
@@ -32,9 +53,7 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
 
     private OnItemClickAdapter adapter;
 
-    public HistoryObjectAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
-    }
+
 
     @NonNull
     @Override
@@ -45,30 +64,21 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
 
     @Override
     public void onBindViewHolder(@NonNull HistoryObjectVH holder, final int position) {
-        if(objects != null) {
-            HistoryObject current = objects.get(position);
+        HistoryObject current = getObjectAt(position);
 
-            String pattern = "dd MMM hh:mmaa";
-            SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        String pattern = "dd MMM hh:mmaa";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
 
-            holder.historyTime.setText(sdf.format(current.getTimestamp()));
-            holder.historyRaw.setText(current.getRaw());
-            holder.historyTranslated.setText(current.getTranslated());
+        holder.historyTime.setText(sdf.format(current.getTimestamp()));
+        holder.historyRaw.setText(current.getRaw());
+        holder.historyTranslated.setText(current.getTranslated());
 
-            holder.container.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    adapter.onItemClick(position);
-                }
-            });
-
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        if(objects != null) return objects.size();
-        else return 0;
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.onItemClick(position);
+            }
+        });
     }
 
     class HistoryObjectVH extends RecyclerView.ViewHolder {
@@ -83,21 +93,13 @@ public class HistoryObjectAdapter extends RecyclerView.Adapter<HistoryObjectAdap
             historyRaw = itemView.findViewById(R.id.history_raw_text);
             historyTime = itemView.findViewById(R.id.history_timedate);
         }
-
-        public void showSnackbar() {
-
-        }
-    }
-
-    public void setItems(List<HistoryObject> items) {
-        objects = items;
     }
 
     public void setOnItemClickAdapter(OnItemClickAdapter adapter) {
         this.adapter = adapter;
     }
 
-    public HistoryObject getItem(int position) {
-        return objects.get(position);
+    public HistoryObject getObjectAt(int position) {
+        return getItem(position);
     }
 }

@@ -112,9 +112,7 @@ public class HistoryFragment extends Fragment {
                         } else {
                             clearBtn.setEnabled(true);
                         }
-                        adapter.setItems(objects);
-                        adapter.notifyDataSetChanged();
-
+                        adapter.submitList(objects);
                         historyObjectList = objects;
                     }
                 });
@@ -130,17 +128,13 @@ public class HistoryFragment extends Fragment {
         callback.setOnSwipeListener(new SwipeCallback.OnSwipeListener() {
             @Override
             public void onSwipe(int position) {
-                final HistoryObject obj = adapter.getItem(position);
+                final HistoryObject obj = adapter.getObjectAt(position);
                 historyObjectModel.delete(obj);
-
-                adapter.notifyDataSetChanged();
-
                 Snackbar.make(view, getString(R.string.history_deleted_item), Snackbar.LENGTH_LONG)
                         .setAction(getString(R.string.history_deleted_undo), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 historyObjectModel.insert(obj);
-                                adapter.notifyDataSetChanged();
                             }
                         })
                         .show();
