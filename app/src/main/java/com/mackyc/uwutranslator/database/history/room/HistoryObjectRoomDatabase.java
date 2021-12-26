@@ -18,19 +18,13 @@ public abstract class HistoryObjectRoomDatabase extends RoomDatabase {
 
     static HistoryObjectRoomDatabase getDatabase(final Context context) {
         if(INSTANCE == null) {
-
             synchronized (HistoryObjectRoomDatabase.class) {
                 if (INSTANCE == null) {
-
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                                    HistoryObjectRoomDatabase.class,
-                                                    "history_db").build();
-
+                            HistoryObjectRoomDatabase.class, "history_db").build();
                 }
             }
-
         }
-
         return INSTANCE;
     }
 
