@@ -40,30 +40,15 @@ public class DialogHandler extends DialogFragment {
         }
 
         if(positiveButton != null) {
-            builder.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.onPositiveClick();
-                }
-            });
+            builder.setPositiveButton(positiveButton, (dialogInterface, i) -> listener.onPositiveClick());
         }
 
         if(neutralButton != null) {
-            builder.setNeutralButton(neutralButton, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.onNeutralClick();
-                }
-            });
+            builder.setNeutralButton(neutralButton, (dialogInterface, i) -> listener.onNeutralClick());
         }
 
         if(negativeButton != null) {
-            builder.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.onNegativeClick();
-                }
-            });
+            builder.setNegativeButton(negativeButton, (dialogInterface, i) -> listener.onNegativeClick());
         }
 
         return builder.create();

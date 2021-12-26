@@ -79,12 +79,7 @@ public class HistoryFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.recycler_history_progress);
 
         final Button clearBtn = view.findViewById(R.id.history_container_clear_btn);
-        clearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                deleteAllConfirmDialog.show(manager, "DIALOG_DELETEALL");
-            }
-        });
+        clearBtn.setOnClickListener(btnClearView -> deleteAllConfirmDialog.show(getParentFragmentManager(), deleteAllConfirmDialog.TAG));
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         DividerItemDecoration divider =
@@ -99,42 +94,23 @@ public class HistoryFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         historyList.setVisibility(View.VISIBLE);
 
-        historyObjectModel.getAllObjects()
-                .observe(getViewLifecycleOwner(), new Observer<List<HistoryObject>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<HistoryObject> objects) {
-                        if((objects != null ? objects.size() : 0) == 0) {
-                            clearBtn.setEnabled(false);
-                        } else {
-                            clearBtn.setEnabled(true);
-                        }
-                        adapter.submitList(objects);
-                        historyObjectList = objects;
-                    }
-                });
-
-        adapter.setOnItemClickAdapter(new HistoryObjectAdapter.OnItemClickAdapter() {
-            @Override
-            public void onItemClick(int position) {
-                String strCopy = historyObjectList.get(position).getTranslated();
-                ClipboardHandler.addPlainText(context, strCopy);
-            }
+        historyObjectModel.getAllObjects().observe(getViewLifecycleOwner(), objects -> {
+            clearBtn.setEnabled((objects != null ? objects.size() : 0) != 0);
+            adapter.submitList(objects);
+            historyObjectList = objects;
         });
 
-        callback.setOnSwipeListener(new SwipeCallback.OnSwipeListener() {
-            @Override
-            public void onSwipe(int position) {
-                final HistoryObject obj = adapter.getObjectAt(position);
-                historyObjectModel.delete(obj);
-                Snackbar.make(view, getString(R.string.history_deleted_item), Snackbar.LENGTH_LONG)
-                        .setAction(getString(R.string.history_deleted_undo), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                historyObjectModel.insert(obj);
-                            }
-                        })
-                        .show();
-            }
+        adapter.setOnItemClickAdapter(position -> {
+            String strCopy = historyObjectList.get(position).getTranslated();
+            ClipboardHandler.addPlainText(context, strCopy);
+        });
+
+        callback.setOnSwipeListener(position -> {
+            final HistoryObject obj = adapter.getObjectAt(position);
+            historyObjectModel.delete(obj);
+            Snackbar.make(view, getString(R.string.history_deleted_item), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.history_deleted_undo), view1 -> historyObjectModel.insert(obj))
+                    .show();
         });
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
@@ -142,7 +118,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(final Context context) {
+    public void onAttach(@NonNull final Context context) {
         super.onAttach(context);
         this.context = context;
     }

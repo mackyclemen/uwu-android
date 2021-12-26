@@ -75,9 +75,7 @@ public class TranslatorFragment extends Fragment {
             ClipboardHandler.addPlainText(btnClipboard.getContext(), result);
         });
 
-        translateInput.setOnClickListener(inputTranslateView -> {
-            translateResult.setEnabled(false);
-        });
+        translateInput.setOnClickListener(inputTranslateView -> translateResult.setEnabled(false));
 
         translateInput.setOnFocusChangeListener((inputTranslateView, isFocused) -> {
             if(isFocused) {
