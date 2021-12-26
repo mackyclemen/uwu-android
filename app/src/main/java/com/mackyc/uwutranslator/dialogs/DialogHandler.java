@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class DialogHandler extends DialogFragment {
 
+    public String TAG = this.getTag();
     private String message = "DialogFragment message";
     private String title;
     private String positiveButton, negativeButton, neutralButton;
@@ -30,7 +31,7 @@ public class DialogHandler extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
 
         builder.setMessage(message);
 
@@ -39,30 +40,15 @@ public class DialogHandler extends DialogFragment {
         }
 
         if(positiveButton != null) {
-            builder.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.onPositiveClick();
-                }
-            });
+            builder.setPositiveButton(positiveButton, (dialogInterface, i) -> listener.onPositiveClick());
         }
 
         if(neutralButton != null) {
-            builder.setNeutralButton(neutralButton, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.onNeutralClick();
-                }
-            });
+            builder.setNeutralButton(neutralButton, (dialogInterface, i) -> listener.onNeutralClick());
         }
 
         if(negativeButton != null) {
-            builder.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.onNegativeClick();
-                }
-            });
+            builder.setNegativeButton(negativeButton, (dialogInterface, i) -> listener.onNegativeClick());
         }
 
         return builder.create();

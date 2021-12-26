@@ -8,16 +8,21 @@ import androidx.lifecycle.LiveData;
 import com.mackyc.uwutranslator.database.history.HistoryObject;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HistoryObjectRepository {
 
-    private HistoryObjectDAO dao;
-    private LiveData<List<HistoryObject>> mAllObjects;
+    private final HistoryObjectDAO dao;
+    private final LiveData<List<HistoryObject>> mAllObjects;
+    private final ExecutorService executorService;
 
     public HistoryObjectRepository(Application application) {
         HistoryObjectRoomDatabase db = HistoryObjectRoomDatabase.getDatabase(application);
         dao = db.historyObjectDAO();
         mAllObjects = dao.getAllEntries();
+
+        executorService = Executors.newSingleThreadExecutor();
     }
 
     public LiveData<List<HistoryObject>> getAllObjects(){
@@ -25,60 +30,14 @@ public class HistoryObjectRepository {
     }
 
     public void delete(HistoryObject object) {
-        new DeleteAsyncTask(dao).execute(object);
+        executorService.execute(() -> dao.delete(object));
     }
 
     public void insert(HistoryObject object) {
-        new InsertAsyncTask(dao).execute(object);
+        executorService.execute(() -> dao.insert(object));
     }
 
     public void deleteAll() {
-        new DeleteAllAsyncTask(dao).execute();
+        executorService.execute(dao::deleteAll);
     }
-
-    private static class InsertAsyncTask extends AsyncTask<HistoryObject, Void, Void> {
-
-        private HistoryObjectDAO mAsyncTaskDAO;
-
-        InsertAsyncTask(HistoryObjectDAO dao) {
-            mAsyncTaskDAO = dao;
-        }
-
-        @Override
-        protected Void doInBackground(HistoryObject... historyObjects) {
-            mAsyncTaskDAO.insert(historyObjects[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private HistoryObjectDAO mAsyncTaskDAO;
-
-        DeleteAllAsyncTask(HistoryObjectDAO dao) {
-            mAsyncTaskDAO = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            mAsyncTaskDAO.deleteAll();
-            return null;
-        }
-    }
-
-    private static class DeleteAsyncTask extends AsyncTask<HistoryObject, Void, Void> {
-
-        private HistoryObjectDAO mAsyncTaskDAO;
-
-        DeleteAsyncTask(HistoryObjectDAO dao) {
-            mAsyncTaskDAO = dao;
-        }
-
-        @Override
-        protected Void doInBackground(HistoryObject... historyObjects) {
-            mAsyncTaskDAO.delete(historyObjects[0]);
-            return null;
-        }
-    }
-
 }

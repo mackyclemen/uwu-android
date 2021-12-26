@@ -11,9 +11,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +29,6 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
 
     private HistoryObjectAdapter adapter;
-    private FragmentManager manager;
     private List<HistoryObject> historyObjectList;
     private Context context;
     private HistoryObjectModel historyObjectModel;
@@ -43,9 +40,10 @@ public class HistoryFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        manager = getFragmentManager();
         adapter = new HistoryObjectAdapter(getContext());
-        historyObjectModel = ViewModelProviders.of(this).get(HistoryObjectModel.class);
+
+        HistoryObjectFactory factory = new HistoryObjectFactory(requireActivity().getApplication());
+        historyObjectModel = new ViewModelProvider(this, factory).get(HistoryObjectModel.class);
 
         return inflater.inflate(R.layout.fragment_main_history, container, false);
     }
@@ -54,13 +52,11 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         deleteAllConfirmDialog = new DialogHandler();
         deleteAllConfirmDialog.setMessage(getString(R.string.history_clear_dialog_msg));
         deleteAllConfirmDialog.setPositiveButton(getString(R.string.history_clear_dialog_confirm));
         deleteAllConfirmDialog.setNegativeButton(getString(R.string.history_clear_dialog_cancel));
         deleteAllConfirmDialog.setOnDialogAnswerListener(new DialogHandler.OnDialogAnswerListener() {
-
             @Override
             public void onPositiveClick() {
                 historyObjectModel.deleteAll();
@@ -83,12 +79,7 @@ public class HistoryFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.recycler_history_progress);
 
         final Button clearBtn = view.findViewById(R.id.history_container_clear_btn);
-        clearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                deleteAllConfirmDialog.show(manager, "DIALOG_DELETEALL");
-            }
-        });
+        clearBtn.setOnClickListener(btnClearView -> deleteAllConfirmDialog.show(getParentFragmentManager(), deleteAllConfirmDialog.TAG));
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         DividerItemDecoration divider =
@@ -103,42 +94,23 @@ public class HistoryFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         historyList.setVisibility(View.VISIBLE);
 
-        historyObjectModel.getAllObjects()
-                .observe(getViewLifecycleOwner(), new Observer<List<HistoryObject>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<HistoryObject> objects) {
-                        if((objects != null ? objects.size() : 0) == 0) {
-                            clearBtn.setEnabled(false);
-                        } else {
-                            clearBtn.setEnabled(true);
-                        }
-                        adapter.submitList(objects);
-                        historyObjectList = objects;
-                    }
-                });
-
-        adapter.setOnItemClickAdapter(new HistoryObjectAdapter.OnItemClickAdapter() {
-            @Override
-            public void onItemClick(int position) {
-                String strCopy = historyObjectList.get(position).getTranslated();
-                ClipboardHandler.addPlainText(context, strCopy);
-            }
+        historyObjectModel.getAllObjects().observe(getViewLifecycleOwner(), objects -> {
+            clearBtn.setEnabled((objects != null ? objects.size() : 0) != 0);
+            adapter.submitList(objects);
+            historyObjectList = objects;
         });
 
-        callback.setOnSwipeListener(new SwipeCallback.OnSwipeListener() {
-            @Override
-            public void onSwipe(int position) {
-                final HistoryObject obj = adapter.getObjectAt(position);
-                historyObjectModel.delete(obj);
-                Snackbar.make(view, getString(R.string.history_deleted_item), Snackbar.LENGTH_LONG)
-                        .setAction(getString(R.string.history_deleted_undo), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                historyObjectModel.insert(obj);
-                            }
-                        })
-                        .show();
-            }
+        adapter.setOnItemClickAdapter(position -> {
+            String strCopy = historyObjectList.get(position).getTranslated();
+            ClipboardHandler.addPlainText(context, strCopy);
+        });
+
+        callback.setOnSwipeListener(position -> {
+            final HistoryObject obj = adapter.getObjectAt(position);
+            historyObjectModel.delete(obj);
+            Snackbar.make(view, getString(R.string.history_deleted_item), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.history_deleted_undo), view1 -> historyObjectModel.insert(obj))
+                    .show();
         });
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
@@ -146,7 +118,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(final Context context) {
+    public void onAttach(@NonNull final Context context) {
         super.onAttach(context);
         this.context = context;
     }
