@@ -11,8 +11,8 @@ import java.util.List;
 
 public class HistoryObjectRepository {
 
-    private HistoryObjectDAO dao;
-    private LiveData<List<HistoryObject>> mAllObjects;
+    private final HistoryObjectDAO dao;
+    private final LiveData<List<HistoryObject>> mAllObjects;
 
     public HistoryObjectRepository(Application application) {
         HistoryObjectRoomDatabase db = HistoryObjectRoomDatabase.getDatabase(application);
@@ -38,7 +38,7 @@ public class HistoryObjectRepository {
 
     private static class InsertAsyncTask extends AsyncTask<HistoryObject, Void, Void> {
 
-        private HistoryObjectDAO mAsyncTaskDAO;
+        private final HistoryObjectDAO mAsyncTaskDAO;
 
         InsertAsyncTask(HistoryObjectDAO dao) {
             mAsyncTaskDAO = dao;
@@ -53,7 +53,7 @@ public class HistoryObjectRepository {
 
     private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        private HistoryObjectDAO mAsyncTaskDAO;
+        private final HistoryObjectDAO mAsyncTaskDAO;
 
         DeleteAllAsyncTask(HistoryObjectDAO dao) {
             mAsyncTaskDAO = dao;
@@ -68,7 +68,7 @@ public class HistoryObjectRepository {
 
     private static class DeleteAsyncTask extends AsyncTask<HistoryObject, Void, Void> {
 
-        private HistoryObjectDAO mAsyncTaskDAO;
+        private final HistoryObjectDAO mAsyncTaskDAO;
 
         DeleteAsyncTask(HistoryObjectDAO dao) {
             mAsyncTaskDAO = dao;

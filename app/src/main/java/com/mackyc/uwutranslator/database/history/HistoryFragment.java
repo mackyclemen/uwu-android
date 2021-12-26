@@ -11,9 +11,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +29,6 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
 
     private HistoryObjectAdapter adapter;
-    private FragmentManager manager;
     private List<HistoryObject> historyObjectList;
     private Context context;
     private HistoryObjectModel historyObjectModel;
@@ -43,9 +40,10 @@ public class HistoryFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        manager = getFragmentManager();
         adapter = new HistoryObjectAdapter(getContext());
-        historyObjectModel = ViewModelProviders.of(this).get(HistoryObjectModel.class);
+
+        HistoryObjectFactory factory = new HistoryObjectFactory(requireActivity().getApplication());
+        historyObjectModel = new ViewModelProvider(this, factory).get(HistoryObjectModel.class);
 
         return inflater.inflate(R.layout.fragment_main_history, container, false);
     }
@@ -54,13 +52,11 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         deleteAllConfirmDialog = new DialogHandler();
         deleteAllConfirmDialog.setMessage(getString(R.string.history_clear_dialog_msg));
         deleteAllConfirmDialog.setPositiveButton(getString(R.string.history_clear_dialog_confirm));
         deleteAllConfirmDialog.setNegativeButton(getString(R.string.history_clear_dialog_cancel));
         deleteAllConfirmDialog.setOnDialogAnswerListener(new DialogHandler.OnDialogAnswerListener() {
-
             @Override
             public void onPositiveClick() {
                 historyObjectModel.deleteAll();

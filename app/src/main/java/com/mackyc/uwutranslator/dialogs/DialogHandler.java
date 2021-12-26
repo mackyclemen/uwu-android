@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class DialogHandler extends DialogFragment {
 
+    public String TAG = this.getTag();
     private String message = "DialogFragment message";
     private String title;
     private String positiveButton, negativeButton, neutralButton;

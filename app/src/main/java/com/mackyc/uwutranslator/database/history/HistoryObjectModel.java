@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.mackyc.uwutranslator.database.history.room.HistoryObjectRepository;
 
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class HistoryObjectModel extends AndroidViewModel {
 
-    private HistoryObjectRepository repo;
-    private LiveData<List<HistoryObject>> allObjects;
+    final private HistoryObjectRepository repo;
+    final private LiveData<List<HistoryObject>> allObjects;
 
     public HistoryObjectModel(@NonNull Application application) {
         super(application);
