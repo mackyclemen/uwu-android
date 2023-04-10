@@ -81,6 +81,8 @@ public class HistoryFragment extends Fragment {
         final Button clearBtn = view.findViewById(R.id.history_container_clear_btn);
         clearBtn.setOnClickListener(btnClearView -> deleteAllConfirmDialog.show(getParentFragmentManager(), deleteAllConfirmDialog.TAG));
 
+        final ClipboardHandler handler = new ClipboardHandler(this.getContext());
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         DividerItemDecoration divider =
                 new DividerItemDecoration(historyList.getContext(), manager.getOrientation());
@@ -102,7 +104,7 @@ public class HistoryFragment extends Fragment {
 
         adapter.setOnItemClickAdapter(position -> {
             String strCopy = historyObjectList.get(position).getTranslated();
-            ClipboardHandler.addPlainText(context, strCopy);
+            handler.addPlainText(strCopy);
         });
 
         callback.setOnSwipeListener(position -> {

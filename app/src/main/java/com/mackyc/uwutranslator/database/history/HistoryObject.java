@@ -28,7 +28,7 @@ public final class HistoryObject {
         timestamp = new Date();
 
         raw = input;
-        translated = uwuTranslator.translate(input);
+        translated = new uwuTranslator().translate(input);
     }
 
     @NonNull

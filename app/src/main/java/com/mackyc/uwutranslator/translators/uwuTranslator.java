@@ -2,31 +2,34 @@ package com.mackyc.uwutranslator.translators;
 
 public final class uwuTranslator {
 
-    public static String translate(String input) {
-        return input
+    private final boolean hasSuffix;
 
-                // Letter cases
-                .replace('l', 'w')
-                .replace('r', 'w')
-                .replace('L', 'W')
-                .replace('R', 'W')
+    public uwuTranslator(boolean hasSuffix) {
+        this.hasSuffix = hasSuffix;
+    }
 
-                // -yo cases
-                .replaceAll("no", "nyo")
-                .replaceAll("mo", "myo")
-                .replaceAll("No", "Nyo")
-                .replaceAll("Mo", "Myo")
-                .replaceAll("NO", "NYO")
-                .replaceAll("MO", "MYO")
+    // Default usage pre-refactor
+    public uwuTranslator() {
+        this(true);
+    }
 
-                // 'hu' cases
-                .replaceAll("hu", "hoo")
-                .replaceAll("Hu", "Hoo")
-                .replaceAll("HU", "HOO")
+    public String translate(String input) {
+        String finalOutput = input
+            // Letter cases
+            .replaceAll("[lr]", "w")
+            .replaceAll("[LR]", "W")
+            .replaceAll("th", "ff")
 
-                // uwu ending
-                .replaceAll("\\.[^\\s]|\\z", " uwu");
+            // -yo cases
+            .replaceAll("([mnMN])(o)", "$1y$2")
+            .replaceAll("([MN])(O)", "$1Y$2")
 
+            // 'hu' cases
+            .replaceAll("([Hh])u", "$1oo")
+            .replaceAll("HU", "HOO");
+
+        // Add suffix
+        return hasSuffix ? finalOutput + " uwu" : finalOutput;
     }
 
 }

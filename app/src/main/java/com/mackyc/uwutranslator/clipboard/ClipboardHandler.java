@@ -17,47 +17,49 @@ import java.util.Objects;
  */
 public final class ClipboardHandler {
 
+    public static final String ITEM_DESCRIPTION = "Plaintext";
+
+    private final Context ctx;
+
+    public ClipboardHandler(Context ctx) {
+        this.ctx = ctx;
+    }
+
     /**
      * Adds plain text to the clipboard.
      *
-     * @param context Current instance of the activity
      * @param text    Text that will be added to the clipboard
      */
-    public static void addPlainText(Context context, String text) {
+    public void addPlainText(String text) {
 
         // Gets the instance of the clipboard.
         ClipboardManager manager =
-                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
 
         // Creates an object to add in the clipboard
-        ClipData data = ClipData.newPlainText(
-                context.getString(R.string.translate_clipboard_description), text
-        );
+        ClipData data = ClipData.newPlainText(ITEM_DESCRIPTION, text);
 
         if (manager != null) {
             // Copies argument sent in this method to the clipboard.
             manager.setPrimaryClip(data);
+            // Notifies the user that the item is copied to the clipboard.
+            Toast.makeText(
+                    ctx,
+                    ctx.getString(R.string.translate_clipboard_toast),
+                    Toast.LENGTH_SHORT
+            ).show();
         }
-
-        // Notifies the user that the item is copied to the clipboard.
-        Toast.makeText(
-                context,
-                context.getString(R.string.translate_clipboard_toast),
-                Toast.LENGTH_SHORT
-        ).show();
-
     }
 
     /**
      * Grabs the recent plaintext from the clipboard.
      *
-     * @param context Current instance of the activity.
      * @return Plain text in clipboard; null otherwise.
      */
-    static String getClipPlainText(Context context) {
+    public String getClipPlainText() {
         // Gets the instance of the clipboard.
         ClipboardManager manager =
-                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
 
         if (manager != null && manager.hasPrimaryClip()) {
             // Stores the recent ClipData as a reference.

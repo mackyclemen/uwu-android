@@ -62,7 +62,7 @@ public class TranslatorFragment extends Fragment {
                 translateClipboardButton.setEnabled(true);
             } else {
                 // In this case, the user didn't have anything to translate.
-                result = uwuTranslator.translate("There's nothing to translate! D:<");
+                result = new uwuTranslator().translate("There's nothing to translate! D:<");
                 translateClipboardButton.setEnabled(false);
             }
 
@@ -70,9 +70,11 @@ public class TranslatorFragment extends Fragment {
             translateResult.setText(result);
         });
 
+        final ClipboardHandler handler = new ClipboardHandler(this.getContext());
+
         translateClipboardButton.setOnClickListener(btnClipboard -> {
-            String result = uwuTranslator.translate(translateInput.getText().toString());
-            ClipboardHandler.addPlainText(btnClipboard.getContext(), result);
+            String result = new uwuTranslator().translate(translateInput.getText().toString());
+            handler.addPlainText(result);
         });
 
         translateInput.setOnClickListener(inputTranslateView -> translateResult.setEnabled(false));
